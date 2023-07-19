@@ -1,0 +1,68 @@
+APLICATIVO DE AGENDAMENTOS PARA SALÃO DE BELEZA E OUTROS
+
+  Tec a serem utilizadas
+    * GraphQl
+    * Mysql/Postgres
+    * Node
+      * NextJs
+      * API
+
+  Empresa
+    titulo
+    decricao
+    endereço
+    telefone
+    cores/temas
+
+  Cadastro de Clientes
+    nome
+    email
+    cpf
+    telefone [string]
+    endereço (text)
+    avatar
+    ativo
+    tipo enum(ROOT|CUSTOMER|BARBER|USER_BARBER)
+
+  Cadastro de Usuarios
+    id_cliente
+    usuario
+    senha
+    confirmar a conta
+
+
+  Promocao
+    title
+    valor
+    visivel
+
+  Categorias
+    nome
+    posicao
+    visivel
+    Agenda [string]
+
+  Agenda
+    data
+    horas [string]
+    titulo
+    descricao
+    valor
+    promocao []
+    imagens [string]
+
+  Horarios Marcados
+    usuario
+    cliente
+    pagamento
+    valor pago
+    promo valida
+    data e hora
+    obs
+
+  Pagamentos
+    id
+    transacao id    
+
+    
+    
