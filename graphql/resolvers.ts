@@ -4,7 +4,7 @@ import prisma from "@/libs/prisma";
 
 export const resolvers: Resolvers = {
   Query: {
-    stores: async (parent, args, ctx) => {
+    stores: async (_parent, _args, _ctx) => {
       return (await prisma.store.findMany()).map((items) => ({
         ...items,
         created_at: items.created_at.toString(),
@@ -13,20 +13,23 @@ export const resolvers: Resolvers = {
       }));
     },
 
-    store: async (parent, args, ctx) => {
+    store: async (_parent, args, _ctx) => {
       const { id } = args;
-      return await prisma.store.findFirst({ where: { id } }).then((result) => ({
-        ...result,
-        created_at: result?.created_at?.toString(),
-        updated_at: result?.created_at?.toString(),
-        deleted_at: "",
-      }));
+      return await prisma.store
+        .findFirst({ where: { id: id ?? undefined } })
+        .then((result) => ({
+          ...result,
+          created_at: result?.created_at?.toString(),
+          updated_at: result?.created_at?.toString(),
+          deleted_at: "",
+        }));
     },
   },
 
   Mutation: {
-    createStore: async (parent, args, ctx) => {
+    createUpdateStore: async (_parent, args, _ctx) => {
       const {
+        id,
         fantasyName,
         corporateName,
         cnpj,
@@ -37,8 +40,19 @@ export const resolvers: Resolvers = {
         themes,
       } = args;
       return await prisma.store
-        .create({
-          data: {
+        .upsert({
+          where: { id: id ?? undefined },
+          update: {
+            fantasyName: fantasyName ?? "",
+            corporateName: corporateName ?? "",
+            cnpj: cnpj ?? "",
+            cpf: cpf ?? "",
+            description: description ?? "",
+            address: address ?? "",
+            phones: phones ?? "",
+            themes: themes ?? "",
+          },
+          create: {
             fantasyName: fantasyName ?? "",
             corporateName: corporateName ?? "",
             cnpj: cnpj ?? "",

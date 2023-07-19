@@ -23,7 +23,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createStore(
+    createUpdateStore(
+      id: ID!
       fantasyName: String!
       corporateName: String
       cnpj: String!

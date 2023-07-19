@@ -18,17 +18,18 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createStore: Store;
+  createUpdateStore: Store;
 };
 
 
-export type MutationCreateStoreArgs = {
+export type MutationCreateUpdateStoreArgs = {
   address: Scalars['String']['input'];
   cnpj: Scalars['String']['input'];
   corporateName?: InputMaybe<Scalars['String']['input']>;
   cpf?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   fantasyName: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   phones: Scalars['String']['input'];
   themes?: InputMaybe<Scalars['String']['input']>;
 };
@@ -150,7 +151,7 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createStore?: Resolver<ResolversTypes['Store'], ParentType, ContextType, RequireFields<MutationCreateStoreArgs, 'address' | 'cnpj' | 'fantasyName' | 'phones'>>;
+  createUpdateStore?: Resolver<ResolversTypes['Store'], ParentType, ContextType, RequireFields<MutationCreateUpdateStoreArgs, 'address' | 'cnpj' | 'fantasyName' | 'id' | 'phones'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
