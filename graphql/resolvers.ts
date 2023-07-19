@@ -4,8 +4,13 @@ import prisma from "@/libs/prisma";
 
 export const resolvers: Resolvers = {
   Query: {
-    links: async (parent, args, ctx) => {
-      return await prisma.link.findMany();
+    stores: async (parent, args, ctx) => {
+      return (await prisma.store.findMany()).map((items) => ({
+        ...items,
+        created_at: "",
+        updated_at: "",
+        deleted_at: "",
+      }));
     },
   },
 };

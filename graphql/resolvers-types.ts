@@ -15,16 +15,25 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Link = {
-  __typename?: 'Link';
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
 export type Query = {
   __typename?: 'Query';
-  links: Array<Link>;
+  stores: Array<Store>;
+};
+
+export type Store = {
+  __typename?: 'Store';
+  address: Scalars['String']['output'];
+  cnpj: Scalars['String']['output'];
+  corporateName: Scalars['String']['output'];
+  cpf: Scalars['String']['output'];
+  created_at: Scalars['String']['output'];
+  deleted_at: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  fantasyName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  phones: Scalars['String']['output'];
+  themes: Scalars['String']['output'];
+  updated_at: Scalars['String']['output'];
 };
 
 
@@ -100,8 +109,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  Link: ResolverTypeWrapper<Link>;
   Query: ResolverTypeWrapper<{}>;
+  Store: ResolverTypeWrapper<Store>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
 
@@ -109,24 +118,33 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
-  Link: Link;
   Query: {};
+  Store: Store;
   String: Scalars['String']['output'];
 };
 
-export type LinkResolvers<ContextType = any, ParentType extends ResolversParentTypes['Link'] = ResolversParentTypes['Link']> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  stores?: Resolver<Array<ResolversTypes['Store']>, ParentType, ContextType>;
+};
+
+export type StoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Store'] = ResolversParentTypes['Store']> = {
+  address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  cnpj?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  corporateName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  cpf?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created_at?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  deleted_at?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fantasyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  phones?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  themes?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updated_at?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  links?: Resolver<Array<ResolversTypes['Link']>, ParentType, ContextType>;
-};
-
 export type Resolvers<ContextType = any> = {
-  Link?: LinkResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Store?: StoreResolvers<ContextType>;
 };
 

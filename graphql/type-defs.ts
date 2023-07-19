@@ -1,9 +1,7 @@
 import { gql } from "graphql-tag";
 
 export const typeDefs = gql`
-  /**
-   * Type definitions to Store
-   * /
+  # Type definitions to Store
   type Store {
     id: ID!
     fantasyName: String!
@@ -14,9 +12,12 @@ export const typeDefs = gql`
     address: String!
     phones: String!
     themes: String!
+    created_at: String!
+    updated_at: String!
+    deleted_at: String!
   }
 
   type Query {
-    store: [Store!]!
+    stores: [Store!]!
   }
 `;
