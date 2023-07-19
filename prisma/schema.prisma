@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Store {
-  id            String      @id @default(uuid())
+  id            String    @id @default(uuid())
   fantasyName   String
   corporateName String
   cnpj          String
@@ -21,57 +21,17 @@ model Store {
   address       String
   phones        String
   themes        String
-  created_at    DateTime    @default(now())
-  updated_at    DateTime    @updatedAt
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
-  customers     Customer[]
-  promotions    Promotion[]
-  categories    Category[]
+
+  customers   Customer[]
+  promotions  Promotion[]
+  categories  Category[]
+  schedule    Schedule[]
+  appointment Appointment[]
 
   @@map("stores")
-}
-
-// enum TYPE_PROMOTION {
-//   PRICE
-//   PORCENTAGE
-// }
-
-model Promotion {
-  id          String    @id @default(uuid())
-  title       String
-  description String
-  type        String
-  price       Decimal
-  startDate   DateTime?
-  finalDate   DateTime?
-  visibility  Boolean   @default(false)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  deleted_at  DateTime?
-
-  store   Store?  @relation(fields: [storeId], references: [id])
-  storeId String?
-
-  @@index([storeId])
-  @@map("promotions")
-}
-
-model Category {
-  id          String  @id @default(uuid())
-  title       String
-  description String
-  position    Int     @default(0)
-  visibility  Boolean @default(false)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
-
-  store   Store?  @relation(fields: [storeId], references: [id])
-  storeId String?
-
-  @@index([storeId])
-  @@map("categories")
 }
 
 // enum TYPE_CUSTOMER {
@@ -97,17 +57,131 @@ model Customer {
   deleted_at    DateTime?
   store         Store?    @relation(fields: [storeId], references: [id])
   storeId       String?
-  user          User[]
+
+  schedule    Schedule[]
+  appointment Appointment[]
+  user        User?
 
   @@index([storeId])
   @@map("customers")
 }
 
 model User {
-  id         String    @id @default(uuid())
-  customerId String?
+  id       String @id @default(uuid())
+  username String
+  password String
+
   customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?   @unique
+
+  appointment Appointment[]
 
   @@index([customerId])
   @@map("users")
+}
+
+model Category {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  position    Int     @default(0)
+  visibility  Boolean @default(false)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  store    Store?     @relation(fields: [storeId], references: [id])
+  storeId  String?
+  schedule Schedule[]
+
+  @@index([storeId])
+  @@map("categories")
+}
+
+// enum TYPE_PROMOTION {
+//   PRICE
+//   PORCENTAGE
+// }
+
+model Promotion {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  type        String
+  price       Decimal
+  startDate   DateTime?
+  finalDate   DateTime?
+  visibility  Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  store   Store?  @relation(fields: [storeId], references: [id])
+  storeId String?
+
+  schedule Schedule[]
+
+  @@index([storeId])
+  @@map("promotions")
+}
+
+model Schedule {
+  id          String  @id @default(uuid())
+  description String
+  price       Decimal
+
+  date       DateTime?
+  times      String?
+  images     String?
+  visibility Boolean   @default(false)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  promotion   Promotion? @relation(fields: [promotionId], references: [id])
+  promotionId String?
+
+  store   Store?  @relation(fields: [storeId], references: [id])
+  storeId String?
+
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
+  @@index([storeId])
+  @@index([promotionId])
+  @@index([customerId])
+  @@index([categoryId])
+  @@map("schedules")
+}
+
+model Appointment {
+  id String @id @default(uuid())
+
+  paidOut    Boolean   @default(false)
+  amountPaid Decimal
+  date       DateTime?
+  time       String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  store   Store?  @relation(fields: [storeId], references: [id])
+  storeId String?
+
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@index([storeId])
+  @@index([customerId])
+  @@index([userId])
+  @@map("appointments")
 }
