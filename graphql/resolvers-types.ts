@@ -16,28 +16,33 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Category = {
+  __typename?: 'Category';
+  created_at?: Maybe<Scalars['String']['output']>;
+  deleted_at?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  position: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+  updated_at?: Maybe<Scalars['String']['output']>;
+  visibility: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createUpdateStore: Store;
+  storeCreateUpdate?: Maybe<Store>;
 };
 
 
-export type MutationCreateUpdateStoreArgs = {
-  address: Scalars['String']['input'];
-  cnpj: Scalars['String']['input'];
-  corporateName?: InputMaybe<Scalars['String']['input']>;
-  cpf?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  fantasyName: Scalars['String']['input'];
+export type MutationStoreCreateUpdateArgs = {
+  body: Store;
   id: Scalars['ID']['input'];
-  phones: Scalars['String']['input'];
-  themes?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   store: Store;
-  stores: Array<Store>;
+  stores?: Maybe<Array<Store>>;
 };
 
 
@@ -48,6 +53,7 @@ export type QueryStoreArgs = {
 export type Store = {
   __typename?: 'Store';
   address: Scalars['String']['output'];
+  categories?: Maybe<Array<Category>>;
   cnpj: Scalars['String']['output'];
   corporateName?: Maybe<Scalars['String']['output']>;
   cpf?: Maybe<Scalars['String']['output']>;
@@ -133,7 +139,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Category: ResolverTypeWrapper<Category>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Store: ResolverTypeWrapper<Store>;
@@ -143,24 +151,39 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  Category: Category;
   ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   Store: Store;
   String: Scalars['String']['output'];
 };
 
+export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+  created_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deleted_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  position?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updated_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  visibility?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createUpdateStore?: Resolver<ResolversTypes['Store'], ParentType, ContextType, RequireFields<MutationCreateUpdateStoreArgs, 'address' | 'cnpj' | 'fantasyName' | 'id' | 'phones'>>;
+  storeCreateUpdate?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<MutationStoreCreateUpdateArgs, 'body' | 'id'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType, RequireFields<QueryStoreArgs, 'id'>>;
-  stores?: Resolver<Array<ResolversTypes['Store']>, ParentType, ContextType>;
+  stores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>;
 };
 
 export type StoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Store'] = ResolversParentTypes['Store']> = {
   address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['Category']>>, ParentType, ContextType>;
   cnpj?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   corporateName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cpf?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -176,6 +199,7 @@ export type StoreResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type Resolvers<ContextType = any> = {
+  Category?: CategoryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Store?: StoreResolvers<ContextType>;
