@@ -23,8 +23,8 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     description: String
-    position: Int!
-    visibility: Boolean!
+    position: Int
+    visibility: Boolean
 
     created_at: String
     updated_at: String

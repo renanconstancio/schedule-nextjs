@@ -22,10 +22,10 @@ export type Category = {
   deleted_at?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  position: Scalars['Int']['output'];
+  position?: Maybe<Scalars['Int']['output']>;
   title: Scalars['String']['output'];
   updated_at?: Maybe<Scalars['String']['output']>;
-  visibility: Scalars['Boolean']['output'];
+  visibility?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Mutation = {
@@ -165,10 +165,10 @@ export type CategoryResolvers<ContextType = any, ParentType extends ResolversPar
   deleted_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  position?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updated_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  visibility?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  visibility?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
