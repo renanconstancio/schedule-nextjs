@@ -23,6 +23,7 @@ export const resolvers: Resolvers = {
           ...category,
           created_at: store.created_at.toString(),
           updated_at: store.created_at.toString(),
+          deleted_at: "",
         })),
       }));
     },
@@ -31,12 +32,24 @@ export const resolvers: Resolvers = {
       const { id } = args;
       return (
         (await prisma.store
-          .findFirst({ where: { id: id ?? undefined } })
-          .then((result) => ({
-            ...result,
-            created_at: result?.created_at?.toString(),
-            updated_at: result?.created_at?.toString(),
+          .findFirst({
+            where: { id: id ?? undefined },
+            include: {
+              categories: true,
+            },
+          })
+          .then((store) => ({
+            ...store,
+            created_at: store?.created_at?.toString(),
+            updated_at: store?.created_at?.toString(),
             deleted_at: "",
+            categories:
+              store?.categories.map((category) => ({
+                ...category,
+                created_at: store.created_at.toString(),
+                updated_at: store.created_at.toString(),
+                deleted_at: "",
+              })) ?? [],
           }))) ?? []
       );
     },
